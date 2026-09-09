@@ -37,9 +37,10 @@ Existing Spec Kit project: run the last two commands from the project root, plus
 Notes:
 
 - Each `--from` shows a one-time "untrusted source" prompt; answer `y`.
-- Presets make Spec Kit's template resolver parse `preset.yml`, which needs Python 3 with PyYAML
-  on PATH (`python -m pip install pyyaml`). Without it, `/speckit-plan`, `/speckit-tasks` and
-  `/speckit-constitution` report "PyYAML is required" on that machine.
+- Presets make Spec Kit's template resolver parse `preset.yml`, which needs PyYAML in the Python
+  its scripts pick: `python3` if that name exists on PATH, else `python`. Install it there
+  (`python3 -m pip install pyyaml`, or `python -m pip install pyyaml`). Without it, `/speckit-plan`,
+  `/speckit-tasks` and `/speckit-constitution` report "PyYAML is required" on that machine.
 - The preset installs the command, the constitution wrap and the templates. The roadmap hook only
   appears in `.specify/extensions.yml` once the extension is installed too, so run both.
 - To always get the newest release, `releases/latest/download/<asset>` also works (GitHub redirects to the current asset); the tagged form above pins a version.
