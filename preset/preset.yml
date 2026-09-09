@@ -1,0 +1,53 @@
+schema_version: "1.0"
+
+preset:
+  id: "overview"
+  name: "Project Overview"
+  version: "1.0.0"
+  description: "Adds /speckit-overview to author specs/mission.md, roadmap.md, tech-stack.md and implementation.md, and makes /speckit-constitution derive its rules from them."
+  author: "sahilyousafp"
+  repository: "https://github.com/sahilyousafp/speckit-overview"
+  license: "MIT"
+
+requires:
+  # Needs the wrap strategy (0.8.0) and __SPECKIT_COMMAND_*__ resolution in preset skills (0.8.16).
+  speckit_version: ">=0.8.16"
+
+provides:
+  templates:
+    - type: "command"
+      name: "speckit.overview"
+      file: "commands/speckit.overview.md"
+      description: "Interview the user to author and maintain the project-level docs under specs/"
+
+    - type: "command"
+      name: "speckit.constitution"
+      file: "commands/speckit.constitution.md"
+      description: "Wrap /constitution so it derives principles, constraints and workflow rules from the overview docs"
+      strategy: "wrap"
+
+    - type: "template"
+      name: "mission-template"
+      file: "templates/mission-template.md"
+      description: "Scaffold for specs/mission.md"
+
+    - type: "template"
+      name: "roadmap-template"
+      file: "templates/roadmap-template.md"
+      description: "Scaffold for specs/roadmap.md"
+
+    - type: "template"
+      name: "tech-stack-template"
+      file: "templates/tech-stack-template.md"
+      description: "Scaffold for specs/tech-stack.md"
+
+    - type: "template"
+      name: "implementation-template"
+      file: "templates/implementation-template.md"
+      description: "Scaffold for specs/implementation.md"
+
+tags:
+  - "overview"
+  - "mission"
+  - "roadmap"
+  - "planning"

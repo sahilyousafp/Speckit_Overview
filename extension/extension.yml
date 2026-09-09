@@ -1,0 +1,32 @@
+schema_version: "1.0"
+
+extension:
+  id: overview
+  name: "Overview Roadmap Sync"
+  version: "1.0.0"
+  description: "After /speckit-implement, check off the specs/roadmap.md phase whose feature tasks.md is fully complete"
+  author: sahilyousafp
+  repository: https://github.com/sahilyousafp/speckit-overview
+  license: MIT
+
+requires:
+  # Per-event hook lists with priority ordering landed in 0.10.0.
+  speckit_version: ">=0.10.0"
+
+provides:
+  commands:
+    - name: speckit.overview.sync
+      file: commands/speckit.overview.sync.md
+      description: "Check off the roadmap phase for the current feature once every task in its tasks.md is complete"
+
+hooks:
+  after_implement:
+    command: speckit.overview.sync
+    optional: false
+    priority: 5
+    description: "Sync specs/roadmap.md after implementation"
+
+tags:
+  - "overview"
+  - "roadmap"
+  - "workflow"

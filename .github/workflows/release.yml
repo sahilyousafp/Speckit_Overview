@@ -1,0 +1,40 @@
+name: Release add-on archives
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check manifest versions match the tag
+        run: |
+          tag="${GITHUB_REF_NAME#v}"
+          preset_version=$(sed -n 's/^  version: *"\(.*\)"/\1/p' preset/preset.yml | head -1)
+          ext_version=$(sed -n 's/^  version: *"\(.*\)"/\1/p' extension/extension.yml | head -1)
+          echo "tag=$tag preset=$preset_version extension=$ext_version"
+          [ "$preset_version" = "$tag" ] || { echo "preset/preset.yml version does not match the tag"; exit 1; }
+          [ "$ext_version" = "$tag" ] || { echo "extension/extension.yml version does not match the tag"; exit 1; }
+
+      - name: Build archives
+        run: |
+          mkdir -p dist
+          (cd preset && zip -r ../dist/overview-preset.zip .)
+          (cd extension && zip -r ../dist/overview-extension.zip .)
+          (cd dist && sha256sum *.zip > SHA256SUMS.txt && cat SHA256SUMS.txt)
+
+      - name: Publish release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            dist/overview-preset.zip
+            dist/overview-extension.zip
+            dist/SHA256SUMS.txt
+          generate_release_notes: true
