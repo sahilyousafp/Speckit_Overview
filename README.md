@@ -27,8 +27,8 @@ New project:
 ```bash
 specify init my-project --integration claude --extension git
 cd my-project
-specify preset add overview --from https://github.com/sahilyousafp/speckit-overview/releases/download/v1.0.0/overview-preset.zip --priority 5
-specify extension add overview --from https://github.com/sahilyousafp/speckit-overview/releases/download/v1.0.0/overview-extension.zip
+specify preset add overview --from https://github.com/sahilyousafp/Speckit_Overview/releases/download/v1.0.0/overview-preset.zip --priority 5
+specify extension add overview --from https://github.com/sahilyousafp/Speckit_Overview/releases/download/v1.0.0/overview-extension.zip
 ```
 
 Existing Spec Kit project: run the last two commands from the project root, plus

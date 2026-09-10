@@ -6,7 +6,7 @@ extension:
   version: "1.0.0"
   description: "After /speckit-implement, check off the specs/roadmap.md phase whose feature tasks.md is fully complete"
   author: sahilyousafp
-  repository: https://github.com/sahilyousafp/speckit-overview
+  repository: https://github.com/sahilyousafp/Speckit_Overview
   license: MIT
 
 requires:
