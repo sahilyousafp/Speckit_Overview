@@ -1,0 +1,103 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  test:
+    name: Test (${{ matrix.os }}, Node ${{ matrix.node }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        node: [20, 24]
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: ${{ matrix.node }}
+          package-manager-cache: false
+      - run: npm test
+
+  e2e:
+    name: E2E (${{ matrix.os }}, Spec Kit ${{ matrix.speckit }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        # The oldest supported Spec Kit and the latest one this was tested against.
+        speckit: [v1.0.4, v1.0.12]
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 24
+          package-manager-cache: false
+      - uses: astral-sh/setup-uv@c18668ad3cf93ea998bef934396af7bb5c839dc7 # v10.2.0
+        with:
+          enable-cache: false
+
+      - name: Install Spec Kit ${{ matrix.speckit }}
+        env:
+          SPECKIT_REF: ${{ matrix.speckit }}
+        run: |
+          uv tool install specify-cli --from "git+https://github.com/github/spec-kit.git@$SPECKIT_REF"
+          uv tool dir --bin >> "$GITHUB_PATH"
+
+      - name: Stub the claude CLI that specify init checks for
+        run: |
+          mkdir -p "$RUNNER_TEMP/stub-bin"
+          printf '#!/bin/sh\nexit 0\n' > "$RUNNER_TEMP/stub-bin/claude"
+          printf '@exit /b 0\r\n' > "$RUNNER_TEMP/stub-bin/claude.cmd"
+          chmod +x "$RUNNER_TEMP/stub-bin/claude"
+          echo "$RUNNER_TEMP/stub-bin" >> "$GITHUB_PATH"
+
+      - name: Pack the package exactly as it will be published
+        run: |
+          npm pack --pack-destination "$RUNNER_TEMP"
+          node -p '"TARBALL=" + require("path").join(process.env.RUNNER_TEMP, `speckit-overview-${require("./package.json").version}.tgz`)' >> "$GITHUB_ENV"
+
+      - name: npx speckit-overview init
+        working-directory: ${{ runner.temp }}
+        run: npx --yes --package "$TARBALL" speckit-overview init demo --integration claude --yes
+
+      - name: Check the installed files
+        working-directory: ${{ runner.temp }}/demo
+        run: |
+          test -f .specify/presets/overview/preset.yml
+          test -f .specify/extensions/overview/extension.yml
+          test -f .claude/skills/speckit-overview/SKILL.md
+          test -f .claude/skills/speckit-overview-sync/SKILL.md
+          grep -q "command: speckit.overview.sync" .specify/extensions.yml
+          grep -q "source: preset:overview" .claude/skills/speckit-constitution/SKILL.md
+
+      - name: Re-running is a no-op
+        working-directory: ${{ runner.temp }}/demo
+        run: npx --yes --package "$TARBALL" speckit-overview --yes | tee out.txt && grep -q "already installed" out.txt
+
+      - name: Uninstall
+        working-directory: ${{ runner.temp }}/demo
+        run: |
+          npx --yes --package "$TARBALL" speckit-overview uninstall --yes
+          test ! -e .specify/presets/overview
+          test ! -e .specify/extensions/overview
+          test ! -e .claude/skills/speckit-overview
+          ! grep -q "speckit.overview.sync" .specify/extensions.yml

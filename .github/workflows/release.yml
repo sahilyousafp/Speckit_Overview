@@ -1,40 +1,89 @@
-name: Release add-on archives
+name: Release
 
 on:
   push:
     tags:
       - "v*"
 
-permissions:
-  contents: write
+permissions: {}
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: false
 
 jobs:
   release:
+    name: GitHub release archives
     runs-on: ubuntu-latest
+    permissions:
+      contents: write # create the GitHub release and upload its assets
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
 
-      - name: Check manifest versions match the tag
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 24
+          package-manager-cache: false
+
+      - name: Check package.json version matches the tag
         run: |
           tag="${GITHUB_REF_NAME#v}"
-          preset_version=$(sed -n 's/^  version: *"\(.*\)"/\1/p' preset/preset.yml | head -1)
-          ext_version=$(sed -n 's/^  version: *"\(.*\)"/\1/p' extension/extension.yml | head -1)
-          echo "tag=$tag preset=$preset_version extension=$ext_version"
-          [ "$preset_version" = "$tag" ] || { echo "preset/preset.yml version does not match the tag"; exit 1; }
-          [ "$ext_version" = "$tag" ] || { echo "extension/extension.yml version does not match the tag"; exit 1; }
+          pkg_version=$(node -p 'require("./package.json").version')
+          echo "tag=$tag package.json=$pkg_version"
+          [ "$pkg_version" = "$tag" ] || { echo "package.json version does not match the tag"; exit 1; }
 
+      # Also fails unless preset/preset.yml and extension/extension.yml carry the same version.
       - name: Build archives
         run: |
-          mkdir -p dist
-          (cd preset && zip -r ../dist/overview-preset.zip .)
-          (cd extension && zip -r ../dist/overview-extension.zip .)
-          (cd dist && sha256sum *.zip > SHA256SUMS.txt && cat SHA256SUMS.txt)
+          npm test
+          npm run build
+          cat dist/SHA256SUMS.txt
 
       - name: Publish release
-        uses: softprops/action-gh-release@v2
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" --repo "$GITHUB_REPOSITORY" --verify-tag --generate-notes \
+            dist/overview-preset.zip dist/overview-extension.zip dist/SHA256SUMS.txt
+
+  npm:
+    name: Publish to npm
+    needs: release
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write # npm trusted publishing (OIDC); also signs the provenance statement
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
-          files: |
-            dist/overview-preset.zip
-            dist/overview-extension.zip
-            dist/SHA256SUMS.txt
-          generate_release_notes: true
+          persist-credentials: false
+
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
+        with:
+          node-version: 24
+          registry-url: https://registry.npmjs.org
+          package-manager-cache: false
+
+      - name: Check npm supports trusted publishing
+        run: |
+          npm_version=$(npm --version)
+          echo "npm $npm_version"
+          node -e 'const [a,b,c]=process.argv[1].split(".").map(Number); process.exit(a>11||(a===11&&(b>5||(b===5&&c>=1)))?0:1)' "$npm_version" \
+            || { echo "Trusted publishing needs npm 11.5.1 or newer"; exit 1; }
+
+      # The very first version is published by hand (see README), so tolerate it already existing.
+      - name: Check whether this version is already on npm
+        id: published
+        run: |
+          version=$(node -p 'require("./package.json").version')
+          if npm view "speckit-overview@$version" version >/dev/null 2>&1; then
+            echo "speckit-overview@$version is already published; skipping."
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      # prepack rebuilds dist/ and runs the tests. No token is used: npm exchanges the workflow's
+      # OIDC identity for a short-lived publish credential and attaches provenance automatically.
+      - if: steps.published.outputs.skip != 'true'
+        run: npm publish

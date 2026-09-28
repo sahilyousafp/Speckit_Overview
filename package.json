@@ -1,0 +1,45 @@
+{
+  "name": "speckit-overview",
+  "version": "1.1.0",
+  "description": "One-command installer for the speckit-overview add-on to GitHub Spec Kit: mission, roadmap, tech stack and implementation docs, a smarter /speckit-constitution, and automatic roadmap sync.",
+  "keywords": [
+    "spec-kit",
+    "speckit",
+    "specify",
+    "spec-driven-development",
+    "roadmap",
+    "claude-code"
+  ],
+  "homepage": "https://github.com/sahilyousafp/Speckit_Overview#readme",
+  "bugs": {
+    "url": "https://github.com/sahilyousafp/Speckit_Overview/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sahilyousafp/Speckit_Overview.git"
+  },
+  "license": "MIT",
+  "author": "Sahil Yousaf",
+  "type": "module",
+  "bin": {
+    "speckit-overview": "bin/cli.mjs"
+  },
+  "files": [
+    "bin/",
+    "lib/",
+    "dist/overview-preset.zip",
+    "dist/overview-extension.zip",
+    "dist/manifest.json"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "test": "node --test",
+    "prepack": "npm run build && npm test"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
