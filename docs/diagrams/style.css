@@ -1,0 +1,107 @@
+/* Shared look for the speckit-overview diagrams. The README diagrams render at 1600x1000; the
+   rules under the aspect-ratio query below are their landscape layout. linkedin.css builds on this. */
+:root {
+  --paper: #f6f2ea;
+  --ink: #17171b;
+  --muted: #6c675e;
+  --rule: #d9d1c3;
+  --card: #ffffff;
+  --accent: #d9542a;
+  --accent-ink: #ffffff;
+  --tint: #fbe5da;
+  --mono: 'JetBrains Mono', ui-monospace, monospace;
+  --sans: 'Space Grotesk', system-ui, sans-serif;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  height: 100%;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+.canvas {
+  width: 100vw;
+  height: 100vh;
+  padding: 64px 72px 52px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.kicker {
+  font: 500 18px/1 var(--mono);
+  letter-spacing: 0.02em;
+  color: var(--muted);
+  display: flex;
+  justify-content: space-between;
+}
+.kicker b { color: var(--accent); font-weight: 600; }
+
+h1 {
+  margin: 22px 0 0;
+  font-size: 58px;
+  line-height: 1.02;
+  letter-spacing: -0.025em;
+  font-weight: 700;
+}
+h1 em { font-style: normal; color: var(--accent); }
+
+.lede {
+  margin: 16px 0 0;
+  max-width: 900px;
+  font-size: 23px;
+  line-height: 1.35;
+  color: var(--muted);
+}
+
+.body { flex: 1; min-height: 0; margin-top: 36px; }
+
+code, .mono { font-family: var(--mono); }
+
+.chip {
+  display: inline-block;
+  font: 500 15px/1 var(--mono);
+  padding: 8px 11px;
+  border-radius: 7px;
+  background: var(--tint);
+  color: #8a3313;
+  white-space: nowrap;
+}
+
+footer {
+  margin-top: 28px;
+  padding-top: 20px;
+  border-top: 2px solid var(--ink);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 14px;
+  font-size: 17px;
+}
+.legend { display: flex; gap: 22px; align-items: center; color: var(--muted); }
+.legend span { display: inline-flex; align-items: center; gap: 8px; white-space: nowrap; }
+.swatch { width: 18px; height: 18px; border-radius: 4px; border: 2px solid var(--ink); background: var(--card); }
+.swatch.add { background: var(--accent); border-color: var(--accent); }
+.swatch.wrap { border-color: var(--accent); border-width: 3px; }
+.cta { font: 600 19px/1 var(--mono); white-space: nowrap; }
+.cta .dim { color: var(--muted); font-weight: 500; }
+
+/* SVG text inherits these. */
+svg { display: block; width: 100%; height: 100%; overflow: visible; }
+svg text { font-family: var(--sans); fill: var(--ink); }
+svg .m { font-family: var(--mono); }
+svg .muted { fill: var(--muted); }
+svg .on-accent { fill: var(--accent-ink); }
+svg .accent { fill: var(--accent); }
+
+/* Landscape layout (README) */
+@media (min-aspect-ratio: 5/4) {
+  .canvas { padding: 56px 72px 44px; }
+  h1 { font-size: 54px; }
+  footer { flex-direction: row; align-items: center; justify-content: space-between; gap: 24px; }
+}

@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>speckit-overview: where it fits</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600&family=Space+Grotesk:wght@400;500;600;700&display=block" rel="stylesheet">
+<link rel="stylesheet" href="linkedin.css">
+<style>
+  .content svg { height: auto; }
+  .add { fill: var(--accent); }
+  .wrap { fill: var(--card); stroke: var(--accent); stroke-width: 3.5; }
+  .stock { fill: var(--card); stroke: var(--ink); stroke-width: 2.5; }
+  .ln { stroke: var(--ink); stroke-width: 2.5; fill: none; }
+  .ln-acc { stroke: var(--accent); stroke-width: 3; fill: none; }
+  svg text.side { font-size: 28px; font-weight: 500; fill: var(--muted); }
+  .legend { margin-top: 44px; font-size: 24px; gap: 32px; }
+  .legend .swatch { width: 24px; height: 24px; border-radius: 12px; }
+</style>
+</head>
+<body>
+<main class="li">
+  <div class="kicker"><span><b>speckit-overview</b> &middot; for GitHub Spec Kit</span><span>3 / 4</span></div>
+  <h1>Where it <em>fits</em></h1>
+
+  <div class="content">
+    <svg viewBox="0 0 904 724" role="img" aria-label="Once per project: /speckit-overview, then /speckit-constitution. Every roadmap phase: /speckit-specify, plan, tasks, implement, then /speckit-overview-sync, looping back to specify for the next phase.">
+      <defs>
+        <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="16" markerHeight="16" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#17171b"/></marker>
+        <marker id="aha" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="16" markerHeight="16" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#d9542a"/></marker>
+      </defs>
+
+      <!-- once per project -->
+      <rect class="add" x="2" y="2" width="540" height="72" rx="36"/>
+      <text class="m on-accent" x="272" y="47" font-size="28" font-weight="600" text-anchor="middle">/speckit-overview</text>
+      <line class="ln" x1="272" y1="74" x2="272" y2="104" marker-end="url(#ah)"/>
+      <rect class="wrap" x="2" y="106" width="540" height="72" rx="36"/>
+      <text class="m" x="272" y="151" font-size="28" font-weight="600" text-anchor="middle">/speckit-constitution</text>
+
+      <path class="ln" d="M600 12H620V168H600"/>
+      <text class="side" x="648" y="100">once</text>
+
+      <line class="ln" x1="272" y1="178" x2="272" y2="232" marker-end="url(#ah)"/>
+
+      <!-- every roadmap phase -->
+      <rect class="stock" x="2" y="234" width="540" height="72" rx="36"/>
+      <text class="m" x="272" y="279" font-size="28" font-weight="600" text-anchor="middle">/speckit-specify</text>
+      <line class="ln" x1="272" y1="306" x2="272" y2="336" marker-end="url(#ah)"/>
+      <rect class="stock" x="2" y="338" width="540" height="72" rx="36"/>
+      <text class="m" x="272" y="383" font-size="28" font-weight="600" text-anchor="middle">/speckit-plan</text>
+      <line class="ln" x1="272" y1="410" x2="272" y2="440" marker-end="url(#ah)"/>
+      <rect class="stock" x="2" y="442" width="540" height="72" rx="36"/>
+      <text class="m" x="272" y="487" font-size="28" font-weight="600" text-anchor="middle">/speckit-tasks</text>
+      <line class="ln" x1="272" y1="514" x2="272" y2="544" marker-end="url(#ah)"/>
+      <rect class="stock" x="2" y="546" width="540" height="72" rx="36"/>
+      <text class="m" x="272" y="591" font-size="28" font-weight="600" text-anchor="middle">/speckit-implement</text>
+      <line class="ln-acc" x1="272" y1="618" x2="272" y2="648" marker-end="url(#aha)"/>
+      <rect class="add" x="2" y="650" width="540" height="72" rx="36"/>
+      <text class="m on-accent" x="272" y="695" font-size="28" font-weight="600" text-anchor="middle">/speckit-overview-sync</text>
+
+      <path class="ln-acc" d="M542 686H620V270H546" marker-end="url(#aha)"/>
+      <text class="side" x="648" y="468">every</text>
+      <text class="side" x="648" y="504">phase</text>
+    </svg>
+
+    <div class="legend">
+      <span><i class="swatch add"></i>added</span>
+      <span><i class="swatch wrap"></i>extended</span>
+      <span><i class="swatch"></i>stock Spec Kit</span>
+    </div>
+  </div>
+
+  <footer><b>npx speckit-overview</b><span>github.com/sahilyousafp/Speckit_Overview</span></footer>
+</main>
+</body>
+</html>

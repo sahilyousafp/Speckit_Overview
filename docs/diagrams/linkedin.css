@@ -1,0 +1,25 @@
+/* Minimal portrait cards for LinkedIn (1080x1350): one idea each, big type, few words. */
+@import url('style.css');
+
+.li {
+  width: 100vw;
+  height: 100vh;
+  padding: 88px 88px 72px;
+  display: flex;
+  flex-direction: column;
+}
+.li .kicker { font-size: 20px; }
+.li h1 { margin-top: 40px; font-size: 76px; line-height: 1.04; letter-spacing: -0.03em; }
+.li .lede { margin-top: 20px; font-size: 30px; }
+.li .content { flex: 1; min-height: 0; display: flex; flex-direction: column; justify-content: center; }
+.li footer {
+  margin-top: 0;
+  padding-top: 24px;
+  border-top: 2px solid var(--ink);
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  font: 500 20px/1 var(--mono);
+  color: var(--muted);
+}
+.li footer b { color: var(--ink); font-weight: 600; }

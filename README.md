@@ -17,6 +17,8 @@ It adds:
 - **Automatic roadmap sync** - an `after_implement` hook (`/speckit-overview-sync`) checks off the
   roadmap phase whose feature `tasks.md` is fully complete, right after `/speckit-implement`.
 
+![Five gaps speckit-overview closes around the Spec Kit feature loop: a mission before the first spec, a phased roadmap, a constitution built from the docs, automatic roadmap check-off, and a model per task type](docs/images/use-cases.png)
+
 Branch creation before `/speckit-specify` is not part of this add-on: Spec Kit already bundles a
 `git` extension that does it (`specify init --extension git`).
 
@@ -100,6 +102,8 @@ once the extension is installed too, so run both.
 
 ## The workflow
 
+![Where speckit-overview plugs into the Spec Kit workflow: /speckit-overview and /speckit-constitution run once per project, then specify, plan, tasks and implement run for every roadmap phase, and the sync hook ticks the phase off before the next one](docs/images/workflow.png)
+
 1. `/speckit-overview` - mission interview, approve the draft, then roadmap, tech stack and
    implementation notes.
 2. `/speckit-constitution` - derives the project's rules from those docs.
@@ -109,6 +113,8 @@ once the extension is installed too, so run both.
 5. Merge, then back to step 3. Run `/speckit-overview` again whenever the plan changes.
 
 ## What gets installed where
+
+![What npx speckit-overview installs: it verifies the bundled archives, serves them on 127.0.0.1, and Spec Kit installs the preset and the extension into .specify/](docs/images/plugin.png)
 
 | Piece | Lands in | Provides |
 |---|---|---|
@@ -144,6 +150,11 @@ cd demo
 specify preset add --dev ../Speckit_Overview/preset --priority 5
 specify extension add ../Speckit_Overview/extension --dev
 ```
+
+The diagrams in `docs/images/` are rendered from the HTML sources in `docs/diagrams/`
+(`use-cases`, `workflow` and `plugin` for this README, `linkedin-*` as 4:5 social cards). Edit a
+source, then run `node docs/diagrams/render.mjs [name...]`; it needs Chrome or Edge, or a
+Chromium-based browser named in `BROWSER`.
 
 CI runs the tests on Linux and Windows, and installs the packed tarball end to end against the
 oldest supported and the latest tested Spec Kit.

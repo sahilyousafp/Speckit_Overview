@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>speckit-overview: what it adds</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600&family=Space+Grotesk:wght@400;500;600;700&display=block" rel="stylesheet">
+<link rel="stylesheet" href="linkedin.css">
+<style>
+  .tiles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+  .tile { background: var(--card); border-radius: 22px; padding: 40px 36px 36px; display: flex; flex-direction: column; gap: 28px; min-height: 250px; }
+  .tile svg { width: 76px; height: 76px; }
+  .tile svg * { fill: none; stroke: var(--accent); stroke-width: 3.5; stroke-linecap: round; stroke-linejoin: round; }
+  .tile svg .ink { stroke: var(--ink); }
+  .tile svg .dot { fill: var(--accent); stroke: none; }
+  .tile span { font-size: 34px; font-weight: 600; line-height: 1.1; letter-spacing: -0.01em; }
+  .tile.cmd { background: var(--ink); color: var(--paper); justify-content: flex-end; }
+  .tile.cmd span { font: 600 30px/1.3 var(--mono); }
+  .tile.cmd i { font-style: normal; color: var(--accent); }
+</style>
+</head>
+<body>
+<main class="li">
+  <div class="kicker"><span><b>speckit-overview</b> &middot; for GitHub Spec Kit</span><span>2 / 4</span></div>
+  <h1>What it <em>adds</em></h1>
+
+  <div class="content">
+    <div class="tiles">
+      <div class="tile">
+        <svg viewBox="0 0 76 76" aria-hidden="true"><circle cx="38" cy="38" r="32"/><circle class="ink" cx="38" cy="38" r="19"/><circle class="dot" cx="38" cy="38" r="7"/></svg>
+        <span>Mission first</span>
+      </div>
+      <div class="tile">
+        <svg viewBox="0 0 76 76" aria-hidden="true"><rect x="6" y="8" width="16" height="16" rx="3"/><path d="M10 16l3 3 6-7"/><path class="ink" d="M32 16h38"/><rect x="6" y="30" width="16" height="16" rx="3"/><path d="M10 38l3 3 6-7"/><path class="ink" d="M32 38h38"/><rect class="ink" x="6" y="52" width="16" height="16" rx="3"/><path class="ink" d="M32 60h26"/></svg>
+        <span>Phased roadmap</span>
+      </div>
+      <div class="tile">
+        <svg viewBox="0 0 76 76" aria-hidden="true"><path class="ink" d="M14 4h34l14 14v54H14z"/><path class="ink" d="M48 4v14h14"/><path class="ink" d="M24 30h28M24 40h28M24 50h16"/><circle cx="56" cy="60" r="12"/><path d="M51 60l4 4 7-8"/></svg>
+        <span>Grounded constitution</span>
+      </div>
+      <div class="tile">
+        <svg viewBox="0 0 76 76" aria-hidden="true"><path class="ink" d="M64 38a26 26 0 1 1-8-18.8"/><path class="ink" d="M58 8v12H46"/><path d="M26 39l8 8 16-17"/></svg>
+        <span>Auto check-off</span>
+      </div>
+      <div class="tile">
+        <svg viewBox="0 0 76 76" aria-hidden="true"><path class="ink" d="M8 16h60M8 38h60M8 60h60"/><circle class="dot" cx="24" cy="16" r="7"/><circle class="dot" cx="54" cy="38" r="7"/><circle class="dot" cx="38" cy="60" r="7"/></svg>
+        <span>Model per task</span>
+      </div>
+      <div class="tile cmd">
+        <span><i>$</i> npx<br>speckit-overview</span>
+      </div>
+    </div>
+  </div>
+
+  <footer><b>speckit-overview</b><span>github.com/sahilyousafp/Speckit_Overview</span></footer>
+</main>
+</body>
+</html>

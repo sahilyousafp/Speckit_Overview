@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>speckit-overview: one command</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600&family=Space+Grotesk:wght@400;500;600;700&display=block" rel="stylesheet">
+<link rel="stylesheet" href="linkedin.css">
+<style>
+  .term { background: var(--ink); color: var(--paper); border-radius: 22px; padding: 44px 44px; font: 600 42px/1 var(--mono); }
+  .term i { font-style: normal; color: var(--accent); margin-right: 20px; }
+  .down { display: block; width: 28px; height: 64px; margin: 22px auto; }
+  .down path { stroke: var(--accent); stroke-width: 3.5; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+  .parts { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
+  .part { position: relative; overflow: hidden; background: var(--card); border-radius: 22px; padding: 40px 32px 34px; }
+  .part::before { content: ''; position: absolute; inset: 0 0 auto; height: 10px; background: var(--accent); }
+  .part h2 { margin: 0 0 22px; font: 600 18px/1 var(--mono); letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); }
+  .part p { margin: 0; font: 600 25px/1.7 var(--mono); }
+  .checks { margin-top: 48px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px 24px; }
+  .checks span { display: flex; align-items: center; gap: 14px; font-size: 28px; font-weight: 500; }
+  .checks svg { width: 30px; height: 30px; flex: none; }
+  .checks path { stroke: var(--accent); stroke-width: 4; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+</style>
+</head>
+<body>
+<main class="li">
+  <div class="kicker"><span><b>speckit-overview</b> &middot; for GitHub Spec Kit</span><span>4 / 4</span></div>
+  <h1>One <em>command</em></h1>
+
+  <div class="content">
+    <div class="term"><i>$</i>npx speckit-overview</div>
+    <svg class="down" viewBox="0 0 28 64" aria-hidden="true"><path d="M14 4v54M4 46l10 12 10-12"/></svg>
+    <div class="parts">
+      <div class="part"><h2>Preset</h2><p>/speckit-overview<br>/speckit-constitution</p></div>
+      <div class="part"><h2>Extension</h2><p>/speckit-overview-sync<br>after_implement hook</p></div>
+    </div>
+    <div class="checks">
+      <span><svg viewBox="0 0 30 30" aria-hidden="true"><path d="M5 16l6 6 14-14"/></svg>No install scripts</span>
+      <span><svg viewBox="0 0 30 30" aria-hidden="true"><path d="M5 16l6 6 14-14"/></svg>Zero dependencies</span>
+      <span><svg viewBox="0 0 30 30" aria-hidden="true"><path d="M5 16l6 6 14-14"/></svg>Checksum-verified</span>
+      <span><svg viewBox="0 0 30 30" aria-hidden="true"><path d="M5 16l6 6 14-14"/></svg>npm provenance</span>
+    </div>
+  </div>
+
+  <footer><b>speckit-overview</b><span>github.com/sahilyousafp/Speckit_Overview</span></footer>
+</main>
+</body>
+</html>

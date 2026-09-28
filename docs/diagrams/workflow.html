@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>speckit-overview in the Spec Kit workflow</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600&family=Space+Grotesk:wght@400;500;600;700&display=block" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<style>
+  .n-add { fill: var(--accent); }
+  .n-wrap { fill: var(--card); stroke: var(--accent); stroke-width: 3; }
+  .n-stock { fill: var(--card); stroke: var(--ink); stroke-width: 2; }
+  .doc { fill: var(--tint); }
+  svg text.doc-t { fill: #8a3313; }
+  .frame { fill: none; stroke: #b9b0a0; stroke-width: 1.5; stroke-dasharray: 5 6; }
+  .sep { stroke: var(--rule); stroke-width: 2; }
+  .ln { stroke: var(--ink); stroke-width: 2; fill: none; }
+  .ln-acc { stroke: var(--accent); stroke-width: 2.5; fill: none; }
+  .gap { fill: var(--paper); }
+  svg text.lane { font-family: var(--mono); font-weight: 600; letter-spacing: 0.08em; fill: var(--muted); }
+  svg text.lbl { font-weight: 500; }
+  svg text.lbl-acc { font-weight: 600; fill: var(--accent); }
+</style>
+</head>
+<body>
+<main class="canvas">
+  <div class="kicker"><span><b>speckit-overview</b> &middot; add-on for GitHub Spec Kit</span></div>
+  <h1>Where it plugs into the <em>Spec Kit</em> workflow</h1>
+  <p class="lede">A project layer above the per-feature loop, and a hook that closes the loop after every phase.</p>
+
+  <div class="body">
+    <!-- Project lane on top, the phase loop left to right below it. -->
+    <svg viewBox="0 0 1456 600" role="img"
+         aria-label="Once per project, /speckit-overview writes mission, tech stack, implementation and roadmap docs, which the extended /speckit-constitution reads to write constitution.md. For every roadmap phase, /speckit-specify takes the next unchecked phase, then plan, tasks and implement run, and the roadmap sync hook ticks the phase off before the loop starts on the next phase.">
+      <defs>
+        <marker id="ahL" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="13" markerHeight="13" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#17171b"/></marker>
+        <marker id="ahaL" viewBox="0 0 10 10" refX="9" refY="5" markerUnits="userSpaceOnUse" markerWidth="14" markerHeight="14" orient="auto-start-reverse"><path d="M0 0L10 5L0 10z" fill="#d9542a"/></marker>
+      </defs>
+
+      <text class="lane" x="0" y="16" font-size="15">ONCE PER PROJECT</text>
+
+      <rect class="n-add" x="0" y="84" width="300" height="96" rx="12"/>
+      <text class="m on-accent" x="150" y="126" font-size="21" font-weight="600" text-anchor="middle">/speckit-overview</text>
+      <text class="on-accent" x="150" y="155" font-size="16" text-anchor="middle">interview, then you approve</text>
+
+      <line class="ln" x1="300" y1="132" x2="366" y2="132" marker-end="url(#ahL)"/>
+      <text class="lbl muted" x="334" y="120" font-size="15" text-anchor="middle">writes</text>
+
+      <rect class="frame" x="368" y="28" width="344" height="208" rx="14"/>
+      <rect class="doc" x="384" y="42" width="312" height="40" rx="8"/><text class="m doc-t" x="400" y="68" font-size="17">specs/mission.md</text>
+      <rect class="doc" x="384" y="90" width="312" height="40" rx="8"/><text class="m doc-t" x="400" y="116" font-size="17">specs/tech-stack.md</text>
+      <rect class="doc" x="384" y="138" width="312" height="40" rx="8"/><text class="m doc-t" x="400" y="164" font-size="17">specs/implementation.md</text>
+      <rect class="doc" x="384" y="186" width="312" height="40" rx="8"/><text class="m doc-t" x="400" y="212" font-size="17">specs/roadmap.md</text>
+
+      <line class="ln" x1="712" y1="132" x2="798" y2="132" marker-end="url(#ahL)"/>
+      <text class="lbl muted" x="755" y="120" font-size="15" text-anchor="middle">read by</text>
+
+      <rect class="n-wrap" x="800" y="84" width="320" height="96" rx="12"/>
+      <text class="m" x="960" y="126" font-size="21" font-weight="600" text-anchor="middle">/speckit-constitution</text>
+      <text class="muted" x="960" y="155" font-size="16" text-anchor="middle">now built from the four docs</text>
+
+      <line class="ln" x1="1120" y1="132" x2="1178" y2="132" marker-end="url(#ahL)"/>
+      <rect class="doc" x="1180" y="104" width="276" height="56" rx="8"/>
+      <text class="m doc-t" x="1196" y="126" font-size="13" opacity="0.8">.specify/memory/</text>
+      <text class="m doc-t" x="1196" y="148" font-size="17">constitution.md</text>
+
+      <line class="sep" x1="0" y1="262" x2="1456" y2="262"/>
+      <text class="lane" x="0" y="296" font-size="15">EVERY ROADMAP PHASE</text>
+
+      <!-- roadmap feeds the next phase in; sync writes the result back. -->
+      <path class="ln-acc" d="M420 226V336H118V378" marker-end="url(#ahaL)"/>
+      <text class="lbl-acc" x="432" y="300" font-size="16">reads the next [ ] phase</text>
+      <path class="ln-acc" d="M1316 380V336H660V228" marker-end="url(#ahaL)"/>
+      <text class="lbl-acc" x="672" y="300" font-size="16">ticks it [x] once every task is done</text>
+
+      <rect class="n-stock" x="0" y="380" width="236" height="96" rx="12"/>
+      <text class="m" x="118" y="422" font-size="18" font-weight="600" text-anchor="middle">/speckit-specify</text>
+      <text class="muted" x="118" y="451" font-size="15" text-anchor="middle">spec.md, on a new branch</text>
+
+      <line class="ln" x1="236" y1="428" x2="310" y2="428" marker-end="url(#ahL)"/>
+      <rect class="n-stock" x="312" y="380" width="200" height="96" rx="12"/>
+      <text class="m" x="412" y="422" font-size="18" font-weight="600" text-anchor="middle">/speckit-plan</text>
+      <text class="muted" x="412" y="451" font-size="15" text-anchor="middle">plan.md</text>
+
+      <line class="ln" x1="512" y1="428" x2="586" y2="428" marker-end="url(#ahL)"/>
+      <rect class="n-stock" x="588" y="380" width="200" height="96" rx="12"/>
+      <text class="m" x="688" y="422" font-size="18" font-weight="600" text-anchor="middle">/speckit-tasks</text>
+      <text class="muted" x="688" y="451" font-size="15" text-anchor="middle">tasks.md</text>
+
+      <line class="ln" x1="788" y1="428" x2="862" y2="428" marker-end="url(#ahL)"/>
+      <rect class="n-stock" x="864" y="380" width="236" height="96" rx="12"/>
+      <text class="m" x="982" y="422" font-size="18" font-weight="600" text-anchor="middle">/speckit-implement</text>
+      <text class="muted" x="982" y="451" font-size="15" text-anchor="middle">writes the code</text>
+
+      <line class="ln-acc" x1="1100" y1="428" x2="1174" y2="428" marker-end="url(#ahaL)"/>
+      <text class="lbl-acc" x="1137" y="416" font-size="13" text-anchor="middle">hook</text>
+      <rect class="n-add" x="1176" y="380" width="280" height="96" rx="12"/>
+      <text class="m on-accent" x="1316" y="422" font-size="18" font-weight="600" text-anchor="middle">/speckit-overview-sync</text>
+      <text class="on-accent" x="1316" y="451" font-size="15" text-anchor="middle">updates specs/roadmap.md</text>
+
+      <path class="ln" d="M1316 476V548H118V478" marker-end="url(#ahL)"/>
+      <rect class="gap" x="668" y="536" width="120" height="24"/>
+      <text class="lbl" x="728" y="554" font-size="16" text-anchor="middle">next phase</text>
+    </svg>
+
+  </div>
+
+  <footer>
+    <div class="legend">
+      <span><i class="swatch add"></i>added by the add-on</span>
+      <span><i class="swatch wrap"></i>stock, extended</span>
+      <span><i class="swatch"></i>stock Spec Kit</span>
+    </div>
+    <div class="cta">npx speckit-overview <span class="dim">&middot; github.com/sahilyousafp/Speckit_Overview</span></div>
+  </footer>
+</main>
+</body>
+</html>
